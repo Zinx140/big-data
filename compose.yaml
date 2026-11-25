@@ -169,9 +169,22 @@ services:
       datanode:
         condition: service_started
     restart: unless-stopped
+  
+  mongodb:
+    image: mongo:8.0
+    hostname: mongodb
+    ports:
+      - "127.0.0.1:27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Set MONGO_ROOT_PASSWORD in .env}
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
 
 volumes:
   kafka_data:
   namenode_data:
   datanode_data:
   hive_data:
+  mongodb_data:
